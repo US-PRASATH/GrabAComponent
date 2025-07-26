@@ -14,6 +14,10 @@ public class ComponentService {
     @Autowired
     private ComponentRepo repo;
 
+    public void addComponent(Component data){
+        repo.save(data);
+    }
+
     public Page<Component> getComponents(int pageNo, int pageSize){
         Pageable pageable=PageRequest.of(pageNo,pageSize);
         return repo.findAll(pageable);

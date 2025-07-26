@@ -1,7 +1,7 @@
 package com.grabacomponent.backend.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,15 +9,15 @@ import com.grabacomponent.backend.model.Listing;
 
 @Repository
 public interface ListingRepo extends JpaRepository<Listing,Long> {
-    List<Listing> findByComponentId(Long id);
+    Page<Listing> findByComponentId(Long id, Pageable pageable);
 
-    List<Listing> findBySellerUsername(String username);
+    Page<Listing> findBySellerUsername(String username, Pageable pageable);
 
-    List<Listing> findByAvailabilityTrueAndComponentId(Long id);
+    Page<Listing> findByAvailabilityTrueAndComponentId(Long id, Pageable pageable);
 
-    List<Listing> findByAvailabilityTrueAndSellerUsername(String username);
+    Page<Listing> findByAvailabilityTrueAndSellerUsername(String username, Pageable pageable);
 
-    List<Listing> findByAvailabilityFalseAndComponentId(Long id);
+    Page<Listing> findByAvailabilityFalseAndComponentId(Long id, Pageable pageable);
 
-    List<Listing> findByAvailabilityFalseAndSellerUsername(String username);
+    Page<Listing> findByAvailabilityFalseAndSellerUsername(String username, Pageable pageable);
 }

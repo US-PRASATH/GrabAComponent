@@ -1,15 +1,16 @@
 package com.grabacomponent.backend.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.grabacomponent.backend.model.Component;
-import java.util.List;
 
 
 @Repository
 public interface ComponentRepo extends JpaRepository<Component,Long>{
-    List<Component> findByType(String type);
+    Page<Component> findByType(String type, Pageable pageable);
 
     Component findByName(String name);
 }

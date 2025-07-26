@@ -1,24 +1,25 @@
 package com.grabacomponent.backend.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.grabacomponent.backend.model.Request;
 
-import java.util.List;
 
 
 @Repository
 public interface RequestRepo extends JpaRepository<Request,Long> {
-    List<Request> findByRequesterUsername(String username);    
+    Page<Request> findByRequesterUsername(String username, Pageable pageable);    
 
-    List<Request> findByComponentId(Long id);
+    Page<Request> findByComponentId(Long id, Pageable pageable);
 
-    List<Request> findByIsOpenTrueAndRequesterUsername(String username);
+    Page<Request> findByIsOpenTrueAndRequesterUsername(String username, Pageable pageable);
 
-    List<Request> findByIsOpenFalseAndRequesterUsername(String username);
+    Page<Request> findByIsOpenFalseAndRequesterUsername(String username, Pageable pageable);
 
-    List<Request> findByIsOpenTrueAndComponentId(Long id);
+    Page<Request> findByIsOpenTrueAndComponentId(Long id, Pageable pageable);
 
-    List<Request> findByIsOpenFalseAndComponentId(Long id);
+    Page<Request> findByIsOpenFalseAndComponentId(Long id, Pageable pageable);
 }

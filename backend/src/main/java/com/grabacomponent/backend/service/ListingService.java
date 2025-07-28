@@ -1,72 +1,42 @@
-// package com.grabacomponent.backend.service;
+package com.grabacomponent.backend.service;
 
-// import java.util.List;
-// import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
-// import org.springframework.web.bind.annotation.RequestParam;
+import com.grabacomponent.backend.model.Listing;
+import com.grabacomponent.backend.repository.ListingRepo;
 
-// import com.grabacomponent.backend.model.Listing;
-// import com.grabacomponent.backend.repository.ComponentRepository;
-// import com.grabacomponent.backend.repository.ListingRepository;
+@Service
+public class ListingService {
+    @Autowired
+    private ListingRepo repo;
 
-// @Service
-// public class ListingService {
-//     @Autowired
-//     ListingRepository listingRepo;
+    public Page<Listing> getListings(int pageNo, int pageSize){
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+        return repo.findAll(pageable);
+    }
+    
+    public Page<Listing> getListingsByComponent(Long id, int pageNo, int pageSize){
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+        return repo.findByComponentId(id,pageable);
+    }
 
-//     @Autowired
-//     ComponentRepository componentRepo;
+    public Page<Listing> getListingsBySeller(String seller, int pageNo, int pageSize){
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+        return repo.findBySellerUsername(seller,pageable);
+    }
 
-//     public List<Listing> getAllListing(){
-//         return listingRepo.findAll();
-//     }
+    public Page<Listing> getAvailableListingsByComponent(Long id,int pageNo, int pageSize){
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+        return repo.findByAvailabilityTrueAndComponentId(id, pageable);
+    }
 
-//     public List<Listing> getListingBySellerId(Long sellerId){
-//         return listingRepo.findBySellerId(sellerId);
+    public Page<Listing> getAvailableListingsBySeller(String seller,int pageNo, int pageSize){
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+        return repo.findByAvailabilityTrueAndSellerUsername(seller, pageable);
+    }
+}
 
-//     }
-
-//     public Optional<Listing> getListingById(Long id){
-//         return listingRepo.findById(id);
-//     }
-
-//     public void deleteListingById(Long id){
-//         listingRepo.deleteById(id);
-//     }
-
-//     public void updateListing(Long id, Listing listing){
-//         Optional<Listing> optionalListing = listingRepo.findById(id);
-//         if(optionalListing.isPresent()){
-//             Listing existingListing = optionalListing.get();
-//             existingListing.setAvailability(listing.getAvailability());
-//             existingListing.setComponent(componentRepo.findById(listing.getComponent().getId()).orElse(existingListing.getComponent()));
-//             existingListing.setQuantity(listing.getQuantity() != null ? listing.getQuantity() : existingListing.getQuantity());
-//             listingRepo.save(existingListing);
-//         } else {
-//             throw new RuntimeException("Listing not found with id: " + id);
-//         }
-//         // listingRepo.save(listing);
-//     }
-
-//     public void updateListingStatus(Long id, boolean availability){
-//         // listing.setAvailability(availability);
-//         Optional<Listing> optionalListing = listingRepo.findById(id);
-//         if (optionalListing.isPresent()) {
-//             Listing listing = optionalListing.get();
-//             listing.setAvailability(availability);
-//             listingRepo.save(listing);
-//         } else {
-//             throw new RuntimeException("Listing not found with id: " + id);
-//         }
-//     }
-
-//     public void createListing(Listing listing){
-//         listingRepo.save(listing);
-//     }
-
-//     // public void addListing(){
-
-//     // }
-// }

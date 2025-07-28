@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.grabacomponent.backend.model.User;
 import com.grabacomponent.backend.repository.UserRepository;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 
 @Service
 public class UserService {
@@ -38,5 +42,36 @@ public class UserService {
             return jwtService.generateToken(user.getUserName());
         }
         return "Verification Failed";
+
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
+
+    public void updateUser(Long id, User updatedUser) {
+        Optional<User> existingUserOptional = userRepository.findById(id);
+        if (existingUserOptional.isPresent()) {
+            User existingUser = existingUserOptional.get();
+
+            if (updatedUser.getEmail() != null) {
+                existingUser.setEmail(updatedUser.getEmail());
+            }
+            if (updatedUser.getName() != null) {
+                existingUser.setName(updatedUser.getName());
+            }
+            if (updatedUser.getPhone() != null) {
+                existingUser.setPhone(updatedUser.getPhone());
+            }
+            if (updatedUser.getPassword() != null) {
+                existingUser.setPassword(updatedUser.getPassword());
+            }
+
+            userRepository.save(existingUser);
+        } else {
+            throw new NoSuchElementException("User not found with id " + id);
+        }
+    }
+
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 }

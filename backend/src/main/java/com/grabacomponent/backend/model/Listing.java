@@ -28,9 +28,9 @@ public class Listing {
     private User seller;
 
     @Column(nullable = false)
-    private boolean availability = true;
+    private Boolean availability = true;
 
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 }
 

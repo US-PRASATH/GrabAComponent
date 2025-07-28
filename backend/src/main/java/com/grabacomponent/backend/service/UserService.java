@@ -1,30 +1,54 @@
 package com.grabacomponent.backend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.grabacomponent.backend.model.User;
+import com.grabacomponent.backend.repository.UserRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.grabacomponent.backend.model.User;
-import com.grabacomponent.backend.repository.UserRepo;
 
 @Service
 public class UserService {
     @Autowired
-    private UserRepo repo;
+    private UserRepository userRepository;
 
-    public List<User> getUsers(){
-        return repo.findAll();
+    @Autowired
+    private AuthenticationManager authManager;
+
+    @Autowired
+    private JWTService jwtService;
+
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    public void register(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
-    public void addUser(User data){
-        repo.save(data);
+    public String login(User user){
+        return verify(user);
+    }
+
+
+    public String verify(User user){
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(user.getUserName());
+        }
+        return "Verification Failed";
+
+    public List<User> getUsers(){
+        return userRepository.findAll();
     }
 
     public void updateUser(Long id, User updatedUser) {
-        Optional<User> existingUserOptional = repo.findById(id);
+        Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
 
@@ -41,13 +65,13 @@ public class UserService {
                 existingUser.setPassword(updatedUser.getPassword());
             }
 
-            repo.save(existingUser);
+            userRepository.save(existingUser);
         } else {
             throw new NoSuchElementException("User not found with id " + id);
         }
     }
 
     public User getUserByUsername(String username){
-        return repo.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 }

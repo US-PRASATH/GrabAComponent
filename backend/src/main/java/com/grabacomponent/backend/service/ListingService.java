@@ -39,3 +39,4 @@ public class ListingService {
         return repo.findByAvailabilityTrueAndSellerUsername(seller, pageable);
     }
 }
+

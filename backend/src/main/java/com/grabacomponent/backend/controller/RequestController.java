@@ -41,4 +41,5 @@ public class RequestController {
     public Page<Request> getOpenRequestsByRequester(@PathVariable String requester, @RequestParam(defaultValue = "0") int pageNo, @RequestParam(defaultValue = "10") int pageSize) {
         return service.getOpenRequestsByRequester(requester,pageNo, pageSize);
     }
+
 }

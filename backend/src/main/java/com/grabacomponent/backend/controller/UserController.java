@@ -1,35 +1,28 @@
 package com.grabacomponent.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.grabacomponent.backend.model.User;
-import com.grabacomponent.backend.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
+import com.grabacomponent.backend.model.User;
+import com.grabacomponent.backend.service.UserService;
 
-@RestController
 @CrossOrigin
+@RestController
 public class UserController {
     @Autowired
-    private UserService service;
+    private UserService userService;
 
-    @PostMapping("/user")
-    public void postUser(@RequestBody User data) {
-        service.addUser(data);
+    @PostMapping("/register")
+    public void register(@RequestBody User user) {
+        userService.register(user);
+
     }
 
-    @PutMapping("/user/{id}")
-    public void putMethodName(@PathVariable Long id, @RequestBody User data) {
-        service.updateUser(id, data);
-    }
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
 
-    @GetMapping("/user/{username}")
-    public User getMethodName(@PathVariable String username) {
-        return service.getUserByUsername(username);
+        return userService.login(user);
     }
 }

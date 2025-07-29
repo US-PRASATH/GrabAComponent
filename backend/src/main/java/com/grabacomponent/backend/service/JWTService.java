@@ -20,27 +20,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-// import lombok.Value;
+
 
 @Service
 public class JWTService {
 
-    // private String secretKey;
-    
     @Value("${jwt.secret}")
     private String secretKey;
 
-    // public JWTService(){
-    //     try {
-    //         KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-    //         SecretKey sk = keyGen.generateKey();
-    //         secretKey = Base64.getEncoder().encodeToString(sk.getEncoded());
-    //     } catch (NoSuchAlgorithmException e) {
-    //         // TODO Auto-generated catch block
-    //         e.printStackTrace();
-    //     }
-        
-    // }
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap();
 
@@ -60,7 +47,7 @@ public class JWTService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     public String extractUserName(String token) {
-        // TODO Auto-generated method stub
+       
         return extractClaim(token, Claims::getSubject);
         
     }
@@ -72,17 +59,17 @@ public class JWTService {
         return Jwts.parser().verifyWith(getKey()).build().parseSignedClaims(token).getPayload();
     }
     public boolean validateToken(String token, UserDetails userDetails) {
-        // TODO Auto-generated method stub
+        
         final String userName = extractUserName(token);
         return(userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
         
     }
     private boolean isTokenExpired(String token) {
-        // TODO Auto-generated method stub
+        
         return extractExpiration(token).before(new Date());
     }
     private Date extractExpiration(String token) {
-        // TODO Auto-generated method stub
+        
         return extractClaim(token, Claims::getExpiration);
     }
     

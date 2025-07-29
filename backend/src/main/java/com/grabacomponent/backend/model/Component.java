@@ -7,10 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="components")
 public class Component {
     @Id
@@ -27,6 +31,6 @@ public class Component {
     private String description;
 
     @Lob
-    private byte[] image;
+    private Byte[] image;
     
 }

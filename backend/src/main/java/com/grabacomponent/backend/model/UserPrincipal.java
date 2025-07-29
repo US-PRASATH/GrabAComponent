@@ -12,7 +12,7 @@ public class UserPrincipal implements UserDetails{
     private String password;
 
     public UserPrincipal(User user) {
-        this.username = user.getUserName();
+        this.username = user.getUsername();
         this.password = user.getPassword();
     }
     @Override

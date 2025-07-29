@@ -16,6 +16,8 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
+    private final ListingService listingService;
     @Autowired
     private UserRepository userRepository;
 
@@ -26,6 +28,10 @@ public class UserService {
     private JWTService jwtService;
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    UserService(ListingService listingService) {
+        this.listingService = listingService;
+    }
     public void register(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -37,11 +43,12 @@ public class UserService {
 
 
     public String verify(User user){
-        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if(authentication.isAuthenticated()){
-            return jwtService.generateToken(user.getUserName());
+            return jwtService.generateToken(user.getUsername());
         }
         return "Verification Failed";
+    }
 
     public List<User> getUsers(){
         return userRepository.findAll();

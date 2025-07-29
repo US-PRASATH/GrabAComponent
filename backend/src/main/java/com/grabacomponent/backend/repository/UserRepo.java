@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.grabacomponent.backend.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepo extends JpaRepository<User, Long> {
     User findByUsername(String username);
     User findByEmail(String email);
     

@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.grabacomponent.backend.model.User;
-import com.grabacomponent.backend.repository.UserRepository;
+import com.grabacomponent.backend.repository.UserRepo;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class UserService {
 
     private final ListingService listingService;
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo userRepository;
 
     @Autowired
     private AuthenticationManager authManager;

@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.grabacomponent.backend.model.User;
 import com.grabacomponent.backend.model.UserPrincipal;
-import com.grabacomponent.backend.repository.UserRepository;
+import com.grabacomponent.backend.repository.UserRepo;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

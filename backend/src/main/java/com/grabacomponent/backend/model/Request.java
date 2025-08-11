@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name="requests")
 public class Request {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
